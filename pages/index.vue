@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
@@ -112,7 +113,15 @@ export default {
   async mounted() {
     const { data } = await this.$axios.get("/api");
 
-    this.items = data;
+    this.items = data.map(p => ({
+      ...p,
+      created_at_local:
+        moment(p.created_at).format("ddd, LTS") +
+        " - " +
+        moment(p.created_at)
+          .startOf("minutes")
+          .fromNow()
+    }));
   }
 };
 </script>

@@ -23,17 +23,7 @@ api.get("/", async (req, res) => {
   const { data: { logs } = null, errors } = await gql({
     query: last24Hours
   });
-  const items = logs.map(p => ({
-    ...p,
-    created_at_local:
-      moment(p.created_at).format("ddd, LTS") +
-      " - " +
-      moment(p.created_at)
-        .startOf("minutes")
-        .fromNow()
-  }));
-
-  res.jsonp(items);
+  res.jsonp(logs);
 });
 
 api.get("/images", async (req, res) => {
